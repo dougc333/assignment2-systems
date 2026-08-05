@@ -1,3 +1,9 @@
+lectrue for triton and how to optimize faster than pytorch
+
+
+>uv sync
+
+
 # CS336 Spring 2026 Assignment 2: Systems
 
 For a full description of the assignment, see the assignment handout at
