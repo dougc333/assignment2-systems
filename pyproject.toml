@@ -12,6 +12,7 @@ dependencies = [
     "pytest>=8",
     "regex>=2026.3.32",
     "torch~=2.11.0",
+    "transformers",
     "tqdm>=4.67.1",
     "wandb>=0.19.7",
     "pandas>=2",

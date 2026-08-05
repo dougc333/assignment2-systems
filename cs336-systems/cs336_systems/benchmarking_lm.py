@@ -51,8 +51,16 @@ x = x.to(config.device)
 y = torch.randint(0, config.vocab_size, (config.batch_size, config.context_length))
 y = y.to(config.device)
 
-# initializing a rando model
-model = BasicsTransformerLM(**asdict(config))
+# Initialize the model with model arguments only. Benchmarking and logging
+# options are not part of BasicsTransformerLM's constructor.
+model = BasicsTransformerLM(
+    vocab_size=config.vocab_size,
+    context_length=config.context_length,
+    d_model=config.d_model,
+    num_layers=config.num_layers,
+    num_heads=config.num_heads,
+    d_ff=config.d_ff,
+)
 model = model.to(config.device)
 model = torch.compile(model)
 # loading the optimizer
