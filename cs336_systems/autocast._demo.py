@@ -27,8 +27,17 @@ class ToyModel(nn.Module):
         print("dtype of x after fc2:", x.dtype)
 
         return (x)
-device = 'cuda'
-dtype = torch.bfloat16
+#t4
+#with torch.amp.autocast(
+#    device_type="cuda",
+#    dtype=torch.float16,
+#):
+#a100
+#dtype=torch.bfloat16,
+#  torch.amp.autocast(device_type=device, dtype=dtype)
+
+dtype = torch.float16
+device="cuda"
 train_context = torch.amp.autocast(device_type=device, dtype=dtype)
 batch_size = 16
 in_features = 32*32
