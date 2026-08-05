@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #SBATCH --job-name=benchmarking
 #SBATCH --partition=batch
 #SBATCH --ntasks=1
@@ -6,40 +6,51 @@
 #SBATCH --time=1:00:00
 #SBATCH --mem=100GB
 #SBATCH --gpus=1
-#SBATCH --output=/home/c-zitong/cs336-assignment2-systems/log/benchmarking_%j.out
-#SBATCH --error=/home/c-zitong/cs336-assignment2-systems/log/benchmarking_%j.err
+#SBATCH --output=benchmarking_%j.out
+#SBATCH --error=benchmarking_%j.err
 
-cd /content/assignment2-systems
+set -euo pipefail
 
-python cs336-systems/cs336_systems/benchmarking_lm.py \
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+BENCHMARK="${PROJECT_ROOT}/cs336-systems/cs336_systems/benchmarking_lm.py"
+
+cd "${PROJECT_ROOT}"
+
+if ! command -v uv >/dev/null 2>&1; then
+    echo "error: uv is required but was not found in PATH" >&2
+    exit 1
+fi
+
+uv run python "${BENCHMARK}" \
     --wandb_run_name "benchmarking_small" \
     --d_model 768 \
     --d_ff 3072 \
     --num_layers 12 \
     --num_heads 12
 
-python cs336-systems/cs336_systems/benchmarking_lm.py \
+uv run python "${BENCHMARK}" \
     --wandb_run_name "benchmarking_medium" \
     --d_model 1024 \
     --d_ff 4096 \
     --num_layers 24 \
     --num_heads 16
 
-python cs336-systems/cs336_systems/benchmarking_lm.py \
+uv run python "${BENCHMARK}" \
     --wandb_run_name "benchmarking_large" \
     --d_model 1280 \
     --d_ff 5120 \
     --num_layers 36 \
     --num_heads 20
 
-python cs336-systems/cs336_systems/benchmarking_lm.py \
+uv run python "${BENCHMARK}" \
     --wandb_run_name "benchmarking_xl" \
     --d_model 1600 \
     --d_ff 6400 \
     --num_layers 48 \
     --num_heads 25
 
-python cs336-systems/cs336_systems/benchmarking_lm.py \
+uv run python "${BENCHMARK}" \
     --wandb_run_name "benchmarking_2p7b" \
     --d_model 2560 \
     --d_ff 10240 \
