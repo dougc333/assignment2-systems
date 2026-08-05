@@ -9,7 +9,7 @@
 #SBATCH --output=/home/c-zitong/cs336-assignment2-systems/log/benchmarking_%j.out
 #SBATCH --error=/home/c-zitong/cs336-assignment2-systems/log/benchmarking_%j.err
 
-cd ~/cs336-assignment2-systems
+cd /content/assignment2-systems
 
 python cs336-systems/cs336_systems/benchmarking_lm.py \
     --wandb_run_name "benchmarking_small" \
